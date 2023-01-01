@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Matched Domains</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    form > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    form button {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
+    textarea {
+      margin: 10px 0;
+    }
+    .results textarea {
+      background-color: #eee;
+      color: #333;
+      width: 100%;
+    }
+  </style>
+  <script>
+    function handleSubmit (e) {
+      e.preventDefault();
+      let domains1 = document.querySelector('textarea[name="domains1"]').value.split(/\r?\n|\r|\n/g);
+      let domains2 = document.querySelector('textarea[name="domains2"]').value.split(/\r?\n|\r|\n/g);
+      domains1 = domains1.map(domain => domain.split('.').slice(-2).join('.'));
+      domains2 = domains2.map(domain => domain.split('.').slice(-2).join('.'));
+      let matchedDomains = domains1.filter(domain => domains2.includes(domain));
+      document.querySelector('textarea[name="matchedDomains"]').value = matchedDomains.join('\n');
+    }
+   
+  </script>
+</head>
+<body>
+  <h1>Find Matched Domains</h1>
+  <form onsubmit="handleSubmit(event)">
+    <div>
+
+      <textarea name="domains1" cols="30" rows="10"></textarea>
+      <textarea name="domains2" cols="30" rows="10"></textarea>
+    </div>
+    <button type="submit">Find Matched Domains</button>
+  </form>
+  <div class="results">
+    <h2>Matched Domains</h2>
+    <textarea name="matchedDomains" rows="10" disabled></textarea>
+  </div>
+</body>
+</html>
